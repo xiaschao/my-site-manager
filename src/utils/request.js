@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { Message } from 'element-ui';
-import { getToken, setToken } from '@/utils/auth';
+import axios from "axios";
+import { Message } from "element-ui";
+import { getToken, setToken } from "@/utils/auth";
 
 // create an axios instance
 const service = axios.create({
@@ -12,7 +12,7 @@ service.interceptors.request.use(
   (config) => {
     // do something before request is sent
     const token = getToken();
-    if (token) config.headers['Authorization'] = 'Bearer ' + token;
+    if (token) config.headers["Authorization"] = "Bearer " + token;
     return config;
   },
   (error) => {
@@ -31,16 +31,16 @@ service.interceptors.response.use(
     if (res.code && res.code !== 0) {
       Message({
         message: res.msg,
-        type: 'error',
+        type: "error",
       });
     }
     return res;
   },
   (error) => {
-    console.log('err' + error); // for debug
+    console.log("err" + error); // for debug
     Message({
       message: error.message,
-      type: 'error',
+      type: "error",
     });
     return Promise.reject(error);
   }

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { getToken } from '@/utils/auth';
+import { getToken } from "@/utils/auth";
 export default {
   props: {
     value: {
@@ -50,9 +50,9 @@ export default {
   methods: {
     handleSuccess(resp) {
       if (resp.code === 0 && resp.data) {
-        this.$emit('input', resp.data);
+        this.$emit("input", resp.data);
       } else {
-        this.$message.error(resp.msg || '出错了，上传图片失败');
+        this.$message.error(resp.msg || "出错了，上传图片失败");
       }
     },
     beforeImgUpload(file) {
@@ -61,7 +61,7 @@ export default {
       }
       // console.log(file);
       const filename = file.name;
-      const extname = filename.substring(filename.lastIndexOf('.') + 1);
+      const extname = filename.substring(filename.lastIndexOf(".") + 1);
       const res = this.trueExtnames.includes(extname);
       if (res) {
         return true;
@@ -74,7 +74,7 @@ export default {
   computed: {
     auth() {
       return {
-        Authorization: 'Bearer ' + getToken(),
+        Authorization: "Bearer " + getToken(),
       };
     },
   },

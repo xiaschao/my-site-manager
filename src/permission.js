@@ -1,18 +1,18 @@
-import router from './router';
-import store from './store';
-import { Message } from 'element-ui';
-import NProgress from 'nprogress'; // progress bar
-import 'nprogress/nprogress.css'; // progress bar style
-import { getToken } from '@/utils/auth'; // get token from localStorage
-import getPageTitle from '@/utils/get-page-title';
+import router from "./router";
+import store from "./store";
+import { Message } from "element-ui";
+import NProgress from "nprogress"; // progress bar
+import "nprogress/nprogress.css"; // progress bar style
+import { getToken } from "@/utils/auth"; // get token from localStorage
+import getPageTitle from "@/utils/get-page-title";
 
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 
 router.beforeEach(async (to, from, next) => {
-  // start progress bar
+  // 开始显示进度
   NProgress.start();
 
-  // set page title
+  // 设置页面标题
   document.title = getPageTitle(to.meta.title);
 
   const hasUserInfo = store.getters.userInfo;
@@ -24,7 +24,7 @@ router.beforeEach(async (to, from, next) => {
       if (hasToken) {
         // 如果本地有token
         try {
-          await store.dispatch('user/getInfo');
+          await store.dispatch("user/getInfo");
           next();
         } catch (error) {
           Message.error(error);
@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
         }
       } else {
         // 没有token
-        Message.error('请先进行登录');
+        Message.error("请先进行登录");
         next(`/login?redirect=${to.path}`);
         NProgress.done();
       }
@@ -43,8 +43,8 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     // 不需要鉴权
-    if (to.path === '/login' && hasUserInfo) {
-      next({ name: 'Dashboard' });
+    if (to.path === "/login" && hasUserInfo) {
+      next({ name: "Dashboard" });
       NProgress.done();
     } else {
       next();
@@ -53,6 +53,6 @@ router.beforeEach(async (to, from, next) => {
 });
 
 router.afterEach(() => {
-  // finish progress bar
+  // 结束进度条
   NProgress.done();
 });
